@@ -8,5 +8,8 @@
 </head>
 <body>
 ㅎㅇ요
+<%-- jsp주석 --%>
+<!-- html주석 -->
+<%/* java주석 */%>
 </body>
 </html>
