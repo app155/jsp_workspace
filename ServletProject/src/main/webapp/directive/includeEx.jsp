@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- <%@ page errorPage="/error/error.jsp" %> --%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>파라미터 출력</title>
+<title></title>
 </head>
 <body>
-name 파라미터 값: <%=request.getParameter("name").toUpperCase() %>
+	<%
+		String name = "Gil Dong Hong";
+	%>
+	<%@ include file="top.jsp" %>
+	top.jsp페이지를 포함하는 페이지
+	<%@ include file="bottom.jsp" %>
 </body>
 </html>

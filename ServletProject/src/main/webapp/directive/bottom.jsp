@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- <%@ page errorPage="/error/error.jsp" %> --%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>파라미터 출력</title>
+<title></title>
 </head>
 <body>
-name 파라미터 값: <%=request.getParameter("name").toUpperCase() %>
+	<hr color="red">
+	bottom 페이지의 내용
+	<p align="center">작성자 <b><%=name %></b>입니다.</p>
 </body>
 </html>

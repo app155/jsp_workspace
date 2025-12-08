@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- <%@ page errorPage="/error/error.jsp" %> --%>
+<%
+	response.setStatus(HttpServletResponse.SC_OK);
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>파라미터 출력</title>
+<title>404 에러 발생</title>
 </head>
 <body>
-name 파라미터 값: <%=request.getParameter("name").toUpperCase() %>
+	<b>요청한 페이지는 존재하지 않습니다</b>
 </body>
 </html>

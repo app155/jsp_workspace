@@ -4,14 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="./resource/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <title>Welcome</title>
 </head>
 <body>
 	<div class="container py-4">
+		<%@ include file="menu.jsp" %>
+	
 		<%!
-			String greeting = "Welcome to MY Home";
-			String tagline = "Welcome!";
+			String greeting = "글로벌인 도서관에 오신것을 환영합니다.";
+			String tagline = "Welcome to GlobalIn Library";
 		%>
 		<div class="p-5 mb-4 bg-body-tertiary rounded-3">
 			<div class="container-fluid py-5">
@@ -44,8 +46,7 @@
 				</div>
 			</div>
 		</div>
-		<%-- <h1><%= greeting %></h1>
-		<h3><%= tagline %></h3> --%>
+		<%@ include file="footer.jsp" %>
 	</div>
 </body>
 </html>
