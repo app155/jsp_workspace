@@ -1,17 +1,33 @@
 package com.jdbc;
 import java.sql.*;
 import java.util.*;
+import javax.sql.*;
+import javax.naming.*;
 
 public class TempMemberDAO {
 	
+	/*
 	private final String JDBC_DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private final String JDBC_URL = "jdbc:oracle:thin:@localhost:1521:orcl";
 	private final String USER = "scott";
 	private final String PASS = "tiger";
+	*/
+	
+	DataSource ds;
 	
 	public TempMemberDAO() {
+		/* JavaBean으로 연결
 		try {
 			Class.forName(JDBC_DRIVER);
+		}
+		catch (Exception e) {
+			System.out.println("Error: JDBC 드라이버 로딩 실패");
+		}
+		*/
+		try { // DBCP API로 연결
+			Context initContext = new InitialContext();
+			Context envContext  = (Context)initContext.lookup("java:/comp/env");
+			ds = (DataSource)envContext.lookup("jdbc/myOracle");
 		}
 		catch (Exception e) {
 			System.out.println("Error: JDBC 드라이버 로딩 실패");
@@ -26,7 +42,8 @@ public class TempMemberDAO {
 		Vector<TempMemberVO> vecList = new Vector<TempMemberVO>();
 		
 		try {
-			con = DriverManager.getConnection(JDBC_URL, USER, PASS);
+			// con = DriverManager.getConnection(JDBC_URL, USER, PASS);
+			con = ds.getConnection();
 			String sql = "SELECT * FROM TEMPMEMBER";
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
