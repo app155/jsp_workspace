@@ -78,7 +78,8 @@
 		</tr>
 		<tr>
 			<td colspan="2" align="center">
-				<input type="button" value="회원가입" onclick="#">
+				<input type="submit" value="회원가입">
+				<!-- <input type="button" value="회원가입" onclick="inputCheck()"> -->
 				&nbsp;&nbsp;
 				<input type="reset" value="다시입력">
 			</td>

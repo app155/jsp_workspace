@@ -137,4 +137,62 @@ public class StudentDAO {
 		
 		return vecList;
 	}
+	
+	// 실제로 데이터베이스에 회원데이터를 저장하기 위한 메소드
+	public boolean memberInsert(StudentVO vo) {
+		boolean flag = false;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = getConnection();
+			String sql = "insert into student values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, vo.getId());
+			pstmt.setString(2, vo.getPass());
+			pstmt.setString(3, vo.getName());
+			pstmt.setString(4, vo.getPhone1());
+			pstmt.setString(5, vo.getPhone2());
+			pstmt.setString(6, vo.getPhone3());
+			pstmt.setString(7, vo.getEmail());
+			pstmt.setString(8, vo.getZipcode());
+			pstmt.setString(9, vo.getAddress1());
+			pstmt.setString(10, vo.getAddress2());
+			
+			int count = pstmt.executeUpdate();
+			
+			if (count > 0) {
+				flag = true;
+			}
+			
+		}
+		catch (SQLException se) {
+			se.printStackTrace();
+		}
+		
+		finally {			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+		}
+		
+		
+		return flag;
+	}
 }

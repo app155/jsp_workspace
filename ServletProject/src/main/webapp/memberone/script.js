@@ -30,3 +30,7 @@ function sendAddress(zipcode, sido, gugun, dong, ri, bunji) {
 	opener.document.regForm.address1.value = address;
 	self.close();
 }
+
+function inputCheck() {
+	
+}
