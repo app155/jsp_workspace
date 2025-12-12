@@ -61,7 +61,7 @@
 			<td align="right">우편번호: </td>
 			<td>
 				<input type="text" name="zipcode">&nbsp;
-				<input type="button" value="찾기" onclick="#">
+				<input type="button" value="찾기" onclick="zipCheck()">
 			</td>
 		</tr>
 		<tr>
