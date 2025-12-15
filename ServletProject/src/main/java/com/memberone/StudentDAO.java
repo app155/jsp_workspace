@@ -192,7 +192,133 @@ public class StudentDAO {
 			}
 		}
 		
-		
 		return flag;
+	}
+	
+	// 로그인 버튼 클릭 시 로그인 폼에 입력한 아이디와 비밀번호를 DB에 저장된 값과 비교하여 같으면 로그인 성공, 다르면 실패
+	public int loginCheck(String id, String pass) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int check = -1;
+		
+		try {
+			con = getConnection();
+			String sql = "select pass from student where id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				String dbPass = rs.getString("pass");
+				
+				if (pass.equals(dbPass)) {
+					check = 1;
+				}
+				else {
+					check = 0;
+				}
+			}
+		}
+		catch (Exception se) {
+			se.printStackTrace();
+		}
+		
+		finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+		}
+		
+		return check;
+	}
+	
+	// 정보수정 버튼 클릭시 현재 로그인된 회원의 정보를 수정할 수 있도록 미리 화면에 출력해야함
+	public StudentVO getMember(String id) {
+		StudentVO vo = null;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = getConnection();
+			String sql = "select * from student where id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				vo = new StudentVO();
+				vo.setId(rs.getString("id"));
+				vo.setPass(rs.getString("pass"));
+				vo.setName(rs.getString("name"));
+				vo.setPhone1(rs.getString("phone1"));
+				vo.setPhone2(rs.getString("phone2"));
+				vo.setPhone3(rs.getString("phone3"));
+				vo.setEmail(rs.getString("email"));
+				vo.setZipcode(rs.getString("zipcode"));
+				vo.setAddress1(rs.getString("address1"));
+				vo.setAddress2(rs.getString("address2"));
+			}
+			
+		}
+		catch (Exception se) {
+			se.printStackTrace();
+		}
+		
+		finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+		}
+		
+		return vo;
 	}
 }
