@@ -289,7 +289,6 @@ public class StudentDAO {
 		catch (Exception se) {
 			se.printStackTrace();
 		}
-		
 		finally {
 			if (rs != null) {
 				try {
@@ -320,5 +319,114 @@ public class StudentDAO {
 		}
 		
 		return vo;
+	}
+	
+	// 정보수정 버튼 클릭시 수정된 정보로 DB를 업데이트
+	public void updateMember(StudentVO vo) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = getConnection();
+			String sql = "update student set pass = ?, phone1 = ?, phone2 = ?, phone3 = ?, email = ?, zipcode = ?, address1 = ?, address2 = ? where id = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, vo.getPass());
+			pstmt.setString(2, vo.getPhone1());
+			pstmt.setString(3, vo.getPhone2());
+			pstmt.setString(4, vo.getPhone3());
+			pstmt.setString(5, vo.getEmail());
+			pstmt.setString(6, vo.getZipcode());
+			pstmt.setString(7, vo.getAddress1());
+			pstmt.setString(8, vo.getAddress2());
+			pstmt.setString(9, vo.getId());
+			
+			pstmt.executeUpdate();
+		}
+		catch (Exception se) {
+			se.printStackTrace();
+		}
+		finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	// 회원탈퇴 - DB에서 회원정보 삭제
+	public int deleteMember(String id, String pass) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int result = -1; // 본인 인증 안됨
+		String dbPass = "";
+		String sql1 = "select pass from student where id = ?";
+		
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement(sql1);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				dbPass = rs.getString("pass");
+				if (dbPass.equals(pass)) {
+					String sql2 = "delete from student where id = ?";
+					pstmt = con.prepareStatement(sql2);
+					pstmt.setString(1, id);
+					pstmt.executeUpdate();
+					result = 1;
+				}
+				else {
+					result = 0;
+				}
+			}
+		}
+		catch (Exception se) {
+			se.printStackTrace();
+		}
+		finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+		}
+		
+		return result;
 	}
 }

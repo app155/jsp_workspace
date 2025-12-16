@@ -1,15 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ include file="view/color.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title></title>
+<title>게시판</title>
+<link href="style.css" rel="stylesheet" type="text/css">
 </head>
-<body>
-좌측메뉴: 
-<a href="/sample/loginForm.html">Login</a>
-<a href="/bbs/write.html">글쓰기</a>
-<a href="/memberone/login.jsp">로그인</a>
+<body bgcolor="<%=bodyback_c %>">
+
 </body>
 </html>
