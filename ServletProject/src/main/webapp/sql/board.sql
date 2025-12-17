@@ -21,3 +21,5 @@ increment by 1
 nomaxvalue
 nocache
 nocycle;
+
+select * from board;
