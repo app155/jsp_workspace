@@ -66,9 +66,9 @@
 			<td align="center" width="250">
 				<a href="content.jsp?num=<%=article.getNum() %>&pageNum=1"><%=article.getSubject() %></a>
 				<%
-					if (article.getReadcount() >= 10) {
+					if (article.getReadcount() >= 5) {
 				%>
-				<img src="" border="0" height="16">
+				<img src="img/hot.gif" border="0" height="16">
 				<%
 					}
 				%>
