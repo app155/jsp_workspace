@@ -4,22 +4,19 @@
 <%@ page import="java.sql.*" %>
 <%
 	request.setCharacterEncoding("UTF-8");
-%>
-<jsp:useBean id="article" class="com.boardone.BoardVO">
-	<jsp:setProperty name="article" property="*"/>
-</jsp:useBean>
-<%
+	int num = Integer.parseInt(request.getParameter("num"));
 	String pageNum = request.getParameter("pageNum");
-	BoardDAO boardDAO = BoardDAO.getInstance();
-	int check = boardDAO.updateArticle(article);
+	String pass = request.getParameter("pass");
+	
+	BoardDAO dbPro = BoardDAO.getInstance();
+	int check = dbPro.deleteArticle(num, pass);
 	
 	if (check == 1) {
 %>
-
 <!DOCTYPE html>
 <html>
-<head>
 <meta charset="UTF-8">
+<head>
 <title></title>
 </head>
 <meta http-equiv="refresh" content="0;url=list.jsp?pageNum=<%=pageNum %>">

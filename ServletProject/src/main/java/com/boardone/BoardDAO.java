@@ -62,7 +62,7 @@ public class BoardDAO {
 			}
 			
 			sql = "insert into board(num, writer, email, subject, pass, readcount, regdate, ref, step, depth, content, ip) "
-					+ "values(board_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "values(board_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, article.getWriter());
 			pstmt.setString(2, article.getEmail());
@@ -166,7 +166,7 @@ public class BoardDAO {
 	}
 	
 	// db에서 데이터를 가져와 list에 저장
-	public List<BoardVO> getArticles() {
+	public List<BoardVO> getArticles(int start, int end) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -174,12 +174,17 @@ public class BoardDAO {
 		
 		try {
 			con = ConnUtil.getConnection();
-			String sql = "select * from board order by num desc";
+			//String sql = "select * from board order by num desc";
+			String sql = "select * from "
+					+ "(select rownum rnum, num, writer, email, subject, pass, regdate, readcount, ref, step, depth, content, ip from "
+					+ "(select * from board order by ref desc, step asc)) where rnum >= ? and rnum <= ?";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
 			rs = pstmt.executeQuery();
 			
 			if (rs.next()) {
-				articleList = new ArrayList<BoardVO>();
+				articleList = new ArrayList<BoardVO>(end - start - 1);
 				
 				do {
 					BoardVO article = new BoardVO();

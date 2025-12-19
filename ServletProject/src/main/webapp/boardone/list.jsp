@@ -6,6 +6,17 @@
 <%@ include file="view/color.jsp" %>
 <%
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+	int pageSize = 5;
+	String pageNum = request.getParameter("pageNum");
+	
+	if (pageNum == null) {
+		pageNum = "1";
+	}
+	
+	int currentPage = Integer.parseInt(pageNum);
+	int startRow = (currentPage - 1) * pageSize + 1;
+	int endRow = currentPage * pageSize;
 	int count = 0;
 	int number = 0;
 	List<BoardVO> articleList = null;
@@ -13,10 +24,10 @@
 	count = dbPro.getArticleCount();
 	
 	if (count > 0) {
-		articleList = dbPro.getArticles();
+		articleList = dbPro.getArticles(startRow, endRow);
 	}
 
-	number = count;
+	number = count - (currentPage - 1) * pageSize;
 %>
 <!DOCTYPE html>
 <html>
@@ -64,6 +75,20 @@
 		<tr height="30" bgcolor="<%=value_c %>">
 			<td align="center" width="50"><%=number-- %></td>
 			<td align="center" width="250">
+				<%
+					int wid = 0;
+					if (article.getDepth() > 0) {	
+				%>
+				<img src="img/level.gif" width="<%=wid %>" height="16">
+				<img src="img/re.gif">
+				<%
+					}
+					else {
+				%>
+				<img src="img/level.gif" width="<%=wid %>" height="16">
+				<%
+					}
+				%>
 				<a href="content.jsp?num=<%=article.getNum() %>&pageNum=1"><%=article.getSubject() %></a>
 				<%
 					if (article.getReadcount() >= 5) {
@@ -87,6 +112,35 @@
 		%>
 	</table>
 	<%
+		}
+		if (count > 0) {
+			int pageBlock = 5;
+			int temp = count % pageSize == 0 ? 0 : 1;
+			int pageCount = count / pageSize + temp;
+			
+			int startPage = (int)((currentPage - 1) / pageBlock) * pageBlock + 1;
+			int endPage = startPage + pageBlock - 1;
+			
+			if (endPage > pageCount) {
+				endPage = pageCount;
+			}
+			
+			if (startPage > pageBlock) {
+	%>
+	<a href="list.jsp?pageNum=<%=startPage - pageBlock %>">[이전]</a>
+	
+	<%
+			}
+			for (int i = startPage; i <= endPage; i++) {
+	%>
+	<a href="list.jsp?pageNum=<%=i %>">[<%=i %>]</a>
+	<%
+			}
+			if (endPage < pageCount) {
+	%>
+	<a href="list.jsp?pageNum=<%=startPage + pageBlock %>">[다음]</a>
+	<%
+			}
 		}
 	%>
 </div>

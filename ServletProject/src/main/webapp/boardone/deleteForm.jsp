@@ -11,6 +11,7 @@
 <meta charset="UTF-8">
 <title>게시판</title>
 <link href="style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="script.js"></script>
 </head>
 <body bgcolor="<%=bodyback_c %>">
 <div align="center">
