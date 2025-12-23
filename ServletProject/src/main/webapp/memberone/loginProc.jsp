@@ -9,6 +9,7 @@
 	
 	if (check == 1) {
 		session.setAttribute("loginID", id);
+		// session.setMaxInactiveInterval(10 * 60);
 		response.sendRedirect("login.jsp");
 	}
 	else if (check == 0) {

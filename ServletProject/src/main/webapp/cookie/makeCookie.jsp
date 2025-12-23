@@ -48,4 +48,4 @@
 <body>
 <%=cookie.getName() %> 쿠키 값: "<%=cookie.getValue() %>"
 </body>
-</html>
+</html> 

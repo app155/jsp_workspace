@@ -23,3 +23,4 @@ nocache
 nocycle;
 
 select * from board;
+select * from TEMPMEMBER;
