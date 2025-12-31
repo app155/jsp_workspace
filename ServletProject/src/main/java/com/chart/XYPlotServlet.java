@@ -94,5 +94,4 @@ public class XYPlotServlet extends HttpServlet {
 			}
 		}
 	}
-
 }
