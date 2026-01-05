@@ -101,4 +101,14 @@
   		<taglib-location>/WEB-INF/tlds/el-functions.tld</taglib-location>
   	</taglib>
   </jsp-config>
+  
+  <servlet>
+  	<servlet-name>controlOne</servlet-name>
+  	<servlet-class>com.mvc.control.ControlServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>controlOne</servlet-name>
+  	<url-pattern>*.do</url-pattern>	
+  </servlet-mapping>
+  
 </web-app>
