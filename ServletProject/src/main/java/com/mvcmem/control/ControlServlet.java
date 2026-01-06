@@ -1,4 +1,4 @@
-package com.mvc.control;
+package com.mvcmem.control;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,17 +10,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mvc.action.Action;
+import com.mvcmem.action.Action;
 
 // @WebServlet("/ControlServlet")
 public class ControlServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html;charset=UTF-8");
+		
 		String cmd = request.getParameter("cmd");
 		
-		// http://localhost:9090/mvc/test.do?cmd=index
 		if (cmd != null) {
 			ActionFactory factory = ActionFactory.getInstance();
 			Action action = factory.getAction(cmd);
@@ -34,18 +35,16 @@ public class ControlServlet extends HttpServlet {
 				rd.forward(request, response);
 			}
 		}
-		// http://localhost:9090/mvc/test.do?cmd=요청 키워드
 		else {
-			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<html>");
 			out.println("<head><title>Error</title></head>");
 			out.println("<body>");
-			out.println("<h4>올바른 요청 형식이 아닙니다.</h4>");
-			out.println("<h4>http://localhost:9090/mvc/test.do?cmd=요청 키워드</h4>");
-			
+			out.println("<h4>올바른 요청이 아닙니다.</h4>");
+			out.println("<h4>http://localhost:9090/mvcmem/member.mdo?cmd=요청키워드</h4>");
 			out.println("</body>");
 			out.println("</html>");
 		}
 	}
+
 }
