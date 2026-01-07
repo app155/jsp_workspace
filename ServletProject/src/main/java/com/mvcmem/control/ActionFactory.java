@@ -1,6 +1,16 @@
 package com.mvcmem.control;
 
 import com.mvcmem.action.Action;
+import com.mvcmem.action.IdCheckAction;
+import com.mvcmem.action.IndexAction;
+import com.mvcmem.action.LoginFormAction;
+import com.mvcmem.action.LoginProcAction;
+import com.mvcmem.action.LogoutAction;
+import com.mvcmem.action.ModifyFormAction;
+import com.mvcmem.action.ModifyProcAction;
+import com.mvcmem.action.RegFormAction;
+import com.mvcmem.action.RegProcAction;
+import com.mvcmem.action.ZipCheckAction;
 
 public class ActionFactory {
 	private static ActionFactory factory;
@@ -22,39 +32,39 @@ public class ActionFactory {
 		case "index":
 			action = new IndexAction();
 			break;
-	/*	case "login":
+		case "login":
 			action = new LoginFormAction();
 			break;
-		case "loginProc":
+		case "loginProc": 
 			action = new LoginProcAction();
 			break;
-		case "logout":
+		case "logout": 
 			action = new LogoutAction();
-			break;
+			break; 
 		case "regForm":
 			action = new RegFormAction();
-			break;
+			break; 
 		case "regProc":
 			action = new RegProcAction();
-			break;
+			break; 
 		case "modifyForm":
 			action = new ModifyFormAction();
 			break;
 		case "modifyProc":
 			action = new ModifyProcAction();
-			break;
+			break; /*
 		case "deleteForm":
 			action = new DeleteFormAction();
 			break;
 		case "deleteProc":
 			action = new DeleteProcAction();
-			break;
+			break; */
 		case "idCheck":
 			action = new IdCheckAction();
-			break;
+			break; 
 		case "zipCheck":
 			action = new ZipCheckAction();
-			break;*/
+			break;
 		default:
 			action = new IndexAction();
 			break;

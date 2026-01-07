@@ -1,11 +1,11 @@
-package com.mvcmem.control;
+package com.mvcmem.action;
 
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mvcmem.action.Action;
+import com.mvcmem.control.ActionForward;
 
 public class IndexAction implements Action {
 
