@@ -1,6 +1,8 @@
 package com.mvcmem.control;
 
 import com.mvcmem.action.Action;
+import com.mvcmem.action.DeleteFormAction;
+import com.mvcmem.action.DeleteProcAction;
 import com.mvcmem.action.IdCheckAction;
 import com.mvcmem.action.IndexAction;
 import com.mvcmem.action.LoginFormAction;
@@ -52,13 +54,13 @@ public class ActionFactory {
 			break;
 		case "modifyProc":
 			action = new ModifyProcAction();
-			break; /*
+			break; 
 		case "deleteForm":
 			action = new DeleteFormAction();
 			break;
 		case "deleteProc":
 			action = new DeleteProcAction();
-			break; */
+			break;
 		case "idCheck":
 			action = new IdCheckAction();
 			break; 

@@ -8,9 +8,8 @@ import javax.servlet.http.HttpSession;
 
 import com.mvcmem.control.ActionForward;
 import com.mvcmem.model.StudentDAO;
-import com.mvcmem.model.StudentVO;
 
-public class ModifyProcAction implements Action {
+public class DeleteProcAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -18,20 +17,17 @@ public class ModifyProcAction implements Action {
 		StudentDAO dao = StudentDAO.getInstance();
 		HttpSession session = request.getSession();
 		String loginID = (String)session.getAttribute("loginID");
-		StudentVO vo = new StudentVO(loginID,
-				request.getParameter("pass"),
-				request.getParameter("name"),
-				request.getParameter("phone1"),
-				request.getParameter("phone2"),
-				request.getParameter("phone3"),
-				request.getParameter("email"),
-				request.getParameter("zipcode"),
-				request.getParameter("address1"),
-				request.getParameter("address2"));
+		String pass = request.getParameter("pass");
 		
-		dao.updateMember(vo);
+		int result = dao.deleteMember(loginID, pass);
 		
-		return new ActionForward("/mvcmem/modifyProc.jsp", false);
+		if (result != 0) {
+			session.invalidate();
+		}
+		
+		request.setAttribute("result", result);
+		
+		return new ActionForward("/mvcmem/deleteProc.jsp", false);
 	}
 
 }
