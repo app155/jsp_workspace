@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class BoardDAO {
 	private static BoardDAO instance = null;
 	
@@ -202,5 +201,167 @@ public class BoardDAO {
 		}
 		
 		return x;
+	}
+	
+	public void insertArticle(BoardVO article) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		int num = article.getNum();
+		int ref = article.getRef();
+		int step = article.getStep();
+		int depth = article.getDepth();
+		
+		int number = 0;
+		String sql = "";
+		
+		try {
+			con = ConnUtil.getConnection();
+			sql = "select max(num) from board";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				number = rs.getInt(1) + 1;
+			}
+			else {
+				number = 1;
+			}
+			
+			if (num != 0) {
+				sql = "update board set step = step + 1 where ref = ? and step > ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, ref);
+				pstmt.setInt(2, step);
+				pstmt.executeUpdate();
+				step = step + 1;
+				depth = depth + 1;
+			}
+			else {
+				ref = number;
+				step = 0;
+				depth = 0;
+			}
+			
+			sql = "insert into board(num, writer, email, subject, pass, readcount, regdate, ref, step, depth, content, ip) "
+					+ "values(board_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, article.getWriter());
+			pstmt.setString(2, article.getEmail());
+			pstmt.setString(3, article.getSubject());
+			pstmt.setString(4, article.getPass());
+			pstmt.setInt(5, article.getReadcount());
+			pstmt.setTimestamp(6, article.getRegdate());
+			pstmt.setInt(7, ref);
+			pstmt.setInt(8, step);
+			pstmt.setInt(9, depth);
+			pstmt.setString(10, article.getContent());
+			pstmt.setString(11, article.getIp());
+			
+			pstmt.executeUpdate();
+		}
+		catch (Exception se) {
+			se.printStackTrace();
+		}
+		
+		finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	public BoardVO getArticle(int num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		BoardVO article = null;
+		
+		try {
+			con = ConnUtil.getConnection();
+			String sql1 = "update board set readcount = readcount + 1 where num = ?";
+			pstmt = con.prepareStatement(sql1);
+			pstmt.setInt(1, num);
+			pstmt.executeUpdate();
+			
+			String sql2 = "select * from board where num = ?";
+			pstmt = con.prepareStatement(sql2);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				article = new BoardVO();
+				article.setNum(rs.getInt("num"));
+				article.setWriter(rs.getString("writer"));
+				article.setEmail(rs.getString("email"));
+				article.setSubject(rs.getString("subject"));
+				article.setPass(rs.getString("pass"));
+				article.setReadcount(rs.getInt("readcount"));
+				article.setRegdate(rs.getTimestamp("regdate"));
+				article.setRef(rs.getInt("ref"));
+				article.setStep(rs.getInt("step"));
+				article.setDepth(rs.getInt("depth"));
+				article.setContent(rs.getString("content"));
+				article.setIp(rs.getString("ip"));
+			}
+		}
+		catch (Exception se) {
+			se.printStackTrace();
+		}
+		
+		finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+			
+			if (con != null) {
+				try {
+					con.close();
+				}
+				catch (SQLException ss) {
+					ss.printStackTrace();
+				}
+			}
+		}
+		
+		return article;
 	}
 }

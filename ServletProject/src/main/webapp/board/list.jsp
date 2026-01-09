@@ -70,61 +70,28 @@
 		</c:forEach>
 	</table>
 	</c:if>
-	<%-- 
-	<%
-		}
-		if (count > 0) {
-			int pageBlock = 5;
-			int temp = count % pageSize == 0 ? 0 : 1;
-			int pageCount = count / pageSize + temp;
-			
-			int startPage = (int)((currentPage - 1) / pageBlock) * pageBlock + 1;
-			int endPage = startPage + pageBlock - 1;
-			
-			if (endPage > pageCount) {
-				endPage = pageCount;
-			}
-			
-			// 검색일 경우, 아닐경우 페이징 처리 구분
-			if (startPage > pageBlock) {
-				if (searchText == null) {
-	%>
-	<a href="list.jsp?pageNum=<%=startPage - pageBlock %>">[이전]</a>
-	<%
-				}
-				else {
-	%>
-	<a href="list.jsp?pageNum=<%=startPage - pageBlock %>&searchWhat=<%=searchWhat %>&searchText=<%=searchText %>">[이전]</a>
-	<%
-				}
-			}
-			for (int i = startPage; i <= endPage; i++) {
-				if (searchText == null) {
-	%>
-	<a href="list.jsp?pageNum=<%=i %>">[<%=i %>]</a>
-	<%
-				}
-				else {
-	%>
-	<a href="list.jsp?pageNum=<%=i %>&searchWhat=<%=searchWhat %>&searchText=<%=searchText %>">[<%=i %>]</a>
-	<%
-				}
-			}
-			if (endPage < pageCount) {
-				if (searchText == null) {
-	%>
-	<a href="list.jsp?pageNum=<%=startPage + pageBlock %>">[다음]</a>
-	<% 
-				}
-				else {
-	%>
-	<a href="list.jsp?pageNum=<%=startPage + pageBlock %>&searchWhat=<%=searchWhat %>&searchText=<%=searchText %>">[다음]</a>
-	<%
-				}
-			}
-		}
-	%>
-	 --%>
+	<c:if test="${count > 0 }">
+		<c:set var="imsi" value="${count % pageSize == 0 ? 0 : 1 }" />
+		<c:set var="pageBlock" value="${5 }" />
+		<c:set var="pageCount" value="${count / pageSize + imsi }" />
+		<fmt:parseNumber var="result" value="${(currentPage - 1) / pageBlock }" integerOnly="true" />
+		<c:set var="startPage" value="${result * pageBlock + 1 }" />
+		<c:set var="endPage" value="${startPage + pageBlock - 1 }" />
+		<c:if test="${endPage > pageCount }">
+			<c:set var="endPage" value="${pageCount }" />
+		</c:if>
+		<c:if test="${startPage > pageBlock }">
+			<a href="/board/list.bdo?pageNum=${startPage - pageBlock }">[이전]</a>			
+		</c:if>
+		
+		<c:forEach var="i" begin="${startPage }" end="${endPage }">
+			<a href="/board/list.bdo?pageNum=${i }">[${i }]</a>
+		</c:forEach>
+		
+		<c:if test="${endPage < pageCount }">
+			<a href="/board/list.bdo?pageNum=${startPage + pageBlock }">[다음]</a>			
+		</c:if>
+	</c:if>
 	<form action="/board/list.bdo" method="post">
 		<select name="searchWhat">
 			<option value="writer">작성자</option>
